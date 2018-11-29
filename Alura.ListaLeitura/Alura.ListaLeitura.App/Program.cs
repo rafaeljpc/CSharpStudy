@@ -15,7 +15,12 @@ namespace Alura.ListaLeitura.App
                 .UseKestrel()
                 .UseStartup<Startup>()
                 .Build();
+
             host.Run();
+
+            //ImprimeLista(_repo.ParaLer);
+            //ImprimeLista(_repo.Lendo);
+            //ImprimeLista(_repo.Lidos);
         }
 
         static void ImprimeLista(ListaDeLeitura lista)
