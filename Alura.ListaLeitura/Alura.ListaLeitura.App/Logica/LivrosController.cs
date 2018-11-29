@@ -2,17 +2,14 @@
 using Alura.ListaLeitura.App.Negocio;
 using Alura.ListaLeitura.App.Repositorio;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Alura.ListaLeitura.App.Logica
 {
-    public class LivrosLogica
+    public class LivrosController : Controller
     {
         private static string CarregaLista(IEnumerable<Livro> livros)
         {
@@ -25,33 +22,37 @@ namespace Alura.ListaLeitura.App.Logica
             return conteudoArquivo.Replace("#NOVO-ITEM#", "");
         }
 
-        public static Task LivrosParaLer(HttpContext context)
+        public IActionResult ParaLer()
         {
             var _repo = new LivroRepositorioCSV();
-            var html = CarregaLista(_repo.ParaLer.Livros);
-            return context.Response.WriteAsync(html);
+            ViewBag.Livros = _repo.ParaLer.Livros;
+            return View("lista");
         }
 
-        public static Task LivrosLendo(HttpContext context)
+        public IActionResult Lendo()
         {
             var _repo = new LivroRepositorioCSV();
-            var html = CarregaLista(_repo.Lendo.Livros);
-            return context.Response.WriteAsync(html);
+            ViewBag.Livros = _repo.Lendo.Livros;
+            return View("lista");
         }
 
-        public static Task LivrosLidos(HttpContext context)
+        public IActionResult Lidos()
         {
             var _repo = new LivroRepositorioCSV();
-            var html = CarregaLista(_repo.Lidos.Livros);
-            return context.Response.WriteAsync(html);
+            ViewBag.Livros = _repo.Lidos.Livros;
+            return View("lista");
         }
 
-        public static Task ExibeDetalhes(HttpContext context)
+        public string Detalhes(int id)
         {
-            int id = Convert.ToInt32(context.GetRouteValue("id"));
             var repo = new LivroRepositorioCSV();
             var livro = repo.Todos.First(l => l.Id == id);
-            return context.Response.WriteAsync(livro.Detalhes());
+            return livro.Detalhes();
+        }
+
+        public string Teste()
+        {
+            return "nova func imple";
         }
 
     }
