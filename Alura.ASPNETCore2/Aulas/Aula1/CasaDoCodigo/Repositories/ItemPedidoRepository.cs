@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Repositories
 {
-    public interface IItemPedidoRepository {
-        void UpdateQuantidade(ItemPedido itemPedido);
+    public interface IItemPedidoRepository
+    {
+        ItemPedido GetItemPedido(int itemPedidoId);
+        void RemoveItemPedido(int itemPedidoId);
     }
 
     public class ItemPedidoRepository : BaseRepository<ItemPedido>, IItemPedidoRepository
@@ -16,18 +18,15 @@ namespace CasaDoCodigo.Repositories
         {
         }
 
-        public void UpdateQuantidade(ItemPedido itemPedido)
+        public ItemPedido GetItemPedido(int itemPedidoId)
         {
-            var itemPedidoDB = dbSet.Where(p => p.Id == itemPedido.Id).SingleOrDefault();
+            return dbSet.Where(i => i.Id == itemPedidoId).SingleOrDefault();
+        }
 
-            if (itemPedidoDB == null)
-            {
-                return;
-            }
-
-            itemPedidoDB.AtualizaQuantidade(itemPedido.Quantidade);
-
-            context.SaveChanges();
+        public void RemoveItemPedido(int itemPedidoId)
+        {
+            ItemPedido itemPedido = GetItemPedido(itemPedidoId);
+            dbSet.Remove(itemPedido);
         }
     }
 }
