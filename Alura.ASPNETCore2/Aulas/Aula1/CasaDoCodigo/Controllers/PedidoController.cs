@@ -41,16 +41,32 @@ namespace CasaDoCodigo.Controllers
 
         public IActionResult Cadastro()
         {
-            return View();
+            var pedido = pedidoRepository.GetPedido();
+
+            if (pedido == null)
+            {
+                return RedirectToAction("Carrossel");
+            }
+
+            return View(pedido.Cadastro);
         }
 
-        public IActionResult Resumo()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Resumo(Cadastro cadastro)
         {
-            var pedido = pedidoRepository.GetPedido();
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Cadastro");
+            }
+
+            var pedido = pedidoRepository.UpdateCadastro(cadastro);
             return View(pedido);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public UpdateQuantidadeResponse UpdateQuantidade([FromBody] ItemPedido itemPedido)
         {
             return pedidoRepository.UpdateQuantidade(itemPedido);
