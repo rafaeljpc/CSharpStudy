@@ -1,4 +1,8 @@
-class NegociacoesView extends View<Negociacoes> {
+import { View } from "./View";
+import { DateHelper } from "../helpers/DateHelper";
+import { Negociacoes } from "../models/Negociacoes";
+
+export class NegociacoesView extends View<Negociacoes> {
 
     protected template(model: Negociacoes) : string {
         return `
