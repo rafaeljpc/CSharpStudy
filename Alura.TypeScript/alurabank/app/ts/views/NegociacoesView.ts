@@ -1,12 +1,6 @@
-class NegociacoesView {
+class NegociacoesView extends View<Negociacoes> {
 
-    private _elemento: Element;
-
-    constructor(selector: string) {
-        this._elemento = document.querySelector(selector);
-    }
-
-    private template(model: Negociacoes) : string {
+    protected template(model: Negociacoes) : string {
         return `
         <table class="table table-hover table-bordered">
             <thead>
@@ -34,10 +28,4 @@ class NegociacoesView {
         </table> 
         `;
     }
-
-    public update(model: Negociacoes) {
-        this._elemento.innerHTML = this.template(model);
-        debugger;
-    }
-
 }
