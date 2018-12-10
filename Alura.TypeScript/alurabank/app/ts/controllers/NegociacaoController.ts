@@ -1,7 +1,10 @@
 import { DateHelper } from "../helpers/index";
-import { DomInject } from "../helpers/decorators/index";
-import { Negociacoes, Negociacao } from "../models/index";
+import { DomInject, Throttle } from "../helpers/decorators/index";
+import { Negociacoes, Negociacao, NegociacaoParcial } from "../models/index";
 import { MensagemView, NegociacoesView } from "../views/index";
+import { NegociacaoService } from "./services/NegociacaoService";
+
+let timer = 0;
 
 export class NegociacaoController {
 
@@ -17,12 +20,12 @@ export class NegociacaoController {
     private _negociacoes = new Negociacoes();
     private _negociacoesView = new NegociacoesView('#negociacoesView');
     private _mensagemView = new MensagemView('#mensagemView');
+    private _negociacaoService = new NegociacaoService();
 
     constructor() {}
 
+    @Throttle(500)
     adiciona(event: Event) {
-        event.preventDefault();
-
         let data = DateHelper.parseDate(this._inputData.val() + "");
 
         if (!DateHelper.IsUsefulDay(data)) {
@@ -40,5 +43,26 @@ export class NegociacaoController {
         
         this._negociacoesView.update(this._negociacoes);
         this._mensagemView.update('Negociacao adicionada com sucesso');
+    }
+
+    @Throttle(500)
+    importaDados() {
+        function isOk(res: Response) {
+            if (!res.ok) {
+                throw new Error(res.statusText);
+            }
+            return res;
+        }
+
+        this._negociacaoService.obterNegociacoes(isOk)
+            .then(negociacoes => {
+                if (!negociacoes)
+                    return;
+
+                (negociacoes as Negociacao[])
+                    .forEach(negociacao => this._negociacoes.add(negociacao))
+
+                this._negociacoesView.update(this._negociacoes);
+            });
     }
 }
