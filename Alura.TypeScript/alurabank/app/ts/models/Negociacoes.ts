@@ -12,7 +12,8 @@ export class Negociacoes {
     }
 
     public asArray() : Negociacao[] {
-        return [].concat(this._negociacoes);
+        //return Object.assign([], this._negociacoes);
+        return ([] as Negociacao[]).concat(this._negociacoes);
     }
     
     

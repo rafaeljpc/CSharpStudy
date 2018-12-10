@@ -1,8 +1,6 @@
-import { DateHelper } from "../helpers/DateHelper";
-import { Negociacoes } from "../models/Negociacoes";
-import { Negociacao } from "../models/Negociacao";
-import { NegociacoesView } from "../views/NegociacoesView";
-import { MensagemView } from "../views/MensagemView";
+import { DateHelper } from "../helpers/index";
+import { Negociacoes, Negociacao } from "../models/index";
+import { MensagemView, NegociacoesView } from "../views/index";
 
 export class NegociacaoController {
 
@@ -21,8 +19,16 @@ export class NegociacaoController {
 
     adiciona(event: Event) {
         event.preventDefault();
+
+        let data = DateHelper.parseDate(this._inputData.val() + "");
+
+        if (!DateHelper.IsUsefulDay(data)) {
+            this._mensagemView.update('Somente negociações em dias uteis');
+            return;
+        }
+
         const negociacao = new Negociacao(
-            DateHelper.parseDate(this._inputData.val() + ""),
+            data,
             parseInt(this._inputQuantidade.val() + ""),
             parseFloat(this._inputValor.val() + "")
         );

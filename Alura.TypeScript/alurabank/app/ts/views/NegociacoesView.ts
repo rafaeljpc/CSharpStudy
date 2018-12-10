@@ -1,6 +1,6 @@
 import { View } from "./View";
-import { DateHelper } from "../helpers/DateHelper";
-import { Negociacoes } from "../models/Negociacoes";
+import { DateHelper } from "../helpers/index";
+import { Negociacoes } from "../models/index";
 
 export class NegociacoesView extends View<Negociacoes> {
 
