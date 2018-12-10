@@ -1,3 +1,5 @@
+import { LogExecutionTime } from "../helpers/decorators/index";
+
 export abstract class View<T> {
     private _elemento: JQuery;
 

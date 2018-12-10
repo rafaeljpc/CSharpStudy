@@ -1,21 +1,24 @@
 import { DateHelper } from "../helpers/index";
+import { DomInject } from "../helpers/decorators/index";
 import { Negociacoes, Negociacao } from "../models/index";
 import { MensagemView, NegociacoesView } from "../views/index";
 
 export class NegociacaoController {
 
+    @DomInject('#data')
     private _inputData: JQuery;
+
+    @DomInject('#quantidade')
     private _inputQuantidade: JQuery;
+
+    @DomInject('#valor')
     private _inputValor: JQuery;
+
     private _negociacoes = new Negociacoes();
     private _negociacoesView = new NegociacoesView('#negociacoesView');
     private _mensagemView = new MensagemView('#mensagemView');
 
-    constructor() {
-        this._inputData = $('#data');
-        this._inputQuantidade = $('#quantidade');
-        this._inputValor = $('#valor');
-    }
+    constructor() {}
 
     adiciona(event: Event) {
         event.preventDefault();
