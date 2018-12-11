@@ -46,7 +46,7 @@ export class NegociacaoController {
     }
 
     @Throttle(500)
-    importaDados() {
+    async importaDados() {
         function isOk(res: Response) {
             if (!res.ok) {
                 throw new Error(res.statusText);
@@ -54,15 +54,9 @@ export class NegociacaoController {
             return res;
         }
 
-        this._negociacaoService.obterNegociacoes(isOk)
-            .then(negociacoes => {
-                if (!negociacoes)
-                    return;
+        const negociacoes = await this._negociacaoService.obterNegociacoes(isOk);
+        negociacoes.forEach(negociacao => this._negociacoes.add(negociacao));
 
-                (negociacoes as Negociacao[])
-                    .forEach(negociacao => this._negociacoes.add(negociacao))
-
-                this._negociacoesView.update(this._negociacoes);
-            });
+        this._negociacoesView.update(this._negociacoes);
     }
 }
