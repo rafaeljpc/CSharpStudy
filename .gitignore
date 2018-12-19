@@ -330,3 +330,5 @@ ASALocalRun/
 .mfractor/
 *.DS_Store
 **/app/js/*
+
+*.class
