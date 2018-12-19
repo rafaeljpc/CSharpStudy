@@ -1,14 +1,40 @@
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class TesteRecursos {
     public static void main(String[] args) {
         testLambdas();
 
         testStream();
+
+        testNewDate();
+    }
+
+    private static void testNewDate() {
+        System.out.println("--------------- Test New Date");
+        LocalDate hoje = LocalDate.now();
+
+        LocalDate aDate = LocalDate.of(2018, 11, 11);
+
+        Period period = Period.between(aDate, hoje);
+        System.out.println(String.format("Passou %d dias", period.get(ChronoUnit.DAYS)));
+
+        Duration duration = Duration.between(aDate.atTime(0, 0), hoje.atTime(0, 0));
+        System.out.println(String.format("Passou %d dias", duration.toDays()));
+
+        System.out.println("hoje=" + hoje.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
 
     private static void testStream() {
@@ -34,6 +60,14 @@ public class TesteRecursos {
             .filter(c -> c.getAlunos() > 5)
             .findAny()
             .ifPresent(c -> System.out.println(c.getNome()));
+        
+        System.out.println("---------------");
+        
+        Map<String, Curso> mCursos = cursos.stream()
+            .filter(c -> c.getAlunos() > 5)
+            .collect(Collectors.toMap(c -> c.getNome(), c -> c));
+        
+        System.out.println(mCursos);
     }
 
 	private static void testLambdas() {
