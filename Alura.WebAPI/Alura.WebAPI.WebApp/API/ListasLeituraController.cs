@@ -7,11 +7,13 @@ using Lista = Alura.ListaLeitura.Modelos.ListaLeitura;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Alura.ListaLeitura.Modelos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Alura.WebAPI.WebApp.API
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ListasLeituraController : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
