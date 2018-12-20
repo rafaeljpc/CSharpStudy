@@ -35,9 +35,11 @@ namespace Alura.WebAPI.Api
 
             services.AddTransient<IRepository<Livro>, RepositorioBaseEF<Livro>>();
 
-            services.AddMvc(options => {
+            services.AddMvcCore(options => {
                 options.OutputFormatters.Add(new LivroCsvFormatter());
-            }).AddXmlSerializerFormatters();
+            })
+            .AddXmlSerializerFormatters()
+            .AddJsonFormatters();
 
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = "JwtBearer";
@@ -49,7 +51,7 @@ namespace Alura.WebAPI.Api
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("alura-api-authentication-valid")),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid")),
                     ClockSkew = TimeSpan.FromMinutes(5),
                     ValidIssuer = "Alura.WebApp",
                     ValidAudience = "Postman",
