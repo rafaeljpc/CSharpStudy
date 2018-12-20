@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Alura.ListaLeitura.Modelos;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Alura.WebAPI.WebApp.API
+namespace Alura.ListaLeitura.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
