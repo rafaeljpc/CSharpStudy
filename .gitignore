@@ -332,3 +332,18 @@ ASALocalRun/
 **/app/js/*
 
 *.class
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+
