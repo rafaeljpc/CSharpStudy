@@ -1,9 +1,19 @@
-<p class="">
-    Fotos de {{userName}}
-</p>
+<div class="text-center mt-3 mb-3">
+    <h2>Fotos de {{userName}}</h2>
+    <form>
+        <input 
+            class="rounded" 
+            type="search" 
+            placeholder="search..." 
+            autofocus
+            (keyup)="debounce.next($event.target.value)"
+            >
+    </form>
+</div>
 
-<app-photo 
-    *ngFor="let photo of photos"
-    [url]="photo.url"
-    [description]="photo.description">
-</app-photo>
+<ap-photos [photos]="photos | filterByDescription: filter "></ap-photos>
+
+<ap-load-button 
+    (click)="load()" 
+    [hasMore]="hasMore">
+</ap-load-button>
