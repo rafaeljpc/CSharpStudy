@@ -1,0 +1,9 @@
+<p class="">
+    Fotos de {{userName}}
+</p>
+
+<app-photo 
+    *ngFor="let photo of photos"
+    [url]="photo.url"
+    [description]="photo.description">
+</app-photo>
