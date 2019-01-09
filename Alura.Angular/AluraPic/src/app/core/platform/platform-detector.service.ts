@@ -7,6 +7,6 @@ export class PlatformDetectorService {
     constructor(@Inject(PLATFORM_ID) private platformId: String) { }
 
     isPlatformBrowser() {
-        return isPlatformBrowser(PLATFORM_ID);
+        return isPlatformBrowser(this.platformId);
     }
 }
