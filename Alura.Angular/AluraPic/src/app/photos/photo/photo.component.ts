@@ -3,7 +3,8 @@ import { Component, Input } from '@angular/core';
 const CLOUD = 'http://localhost:3000/imgs/';
 
 @Component({
-    selector: 'app-photo',
+    // tslint:disable-next-line:component-selector
+    selector: 'ap-photo',
     templateUrl: './photo.component.html'
 })
 export class PhotoComponent {
