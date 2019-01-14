@@ -1,4 +1,4 @@
-<header class="sticky-top">
+<header class="fixed-top">
     <nav class="navbar navbar-light bg-white">
         <a class="navbar-brand">ALURAPIC</a>
         <div *ngIf="(user$ | async) as user; else login">
@@ -13,4 +13,7 @@
             </span>
         </ng-template>
     </nav>
+    <div class="fixed-top">
+        <ap-alert></ap-alert>
+    </div>
 </header>
