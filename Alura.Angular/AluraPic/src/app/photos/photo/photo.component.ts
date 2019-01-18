@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
-const CLOUD = 'http://localhost:3000/imgs/';
+const API = environment.ApiUrl;
+const CLOUD = API + '/imgs/';
 
 @Component({
     // tslint:disable-next-line:component-selector
