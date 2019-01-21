@@ -1,0 +1,58 @@
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { ErrorHandler, Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router';
+import * as StackTrace from 'stacktrace-js';
+
+import { UserService } from '../../core/user/user.service';
+import { ServerLogService } from './server-log.service';
+import { environment } from '../../../environments/environment';
+
+@Injectable()
+export class GlobalErrorHandler implements ErrorHandler {
+
+    constructor(
+        private injector: Injector
+    ) {
+        console.log('constructor');
+    }
+
+    handleError(error: any): void  {
+        const location = this.injector.get(LocationStrategy);
+        const url = location instanceof PathLocationStrategy ? location.path() : '';
+        const message = error.message ? error.message : error.toString();
+        const userService = this.injector.get(UserService);
+        const serverLogService = this.injector.get(ServerLogService);
+        const router = this.injector.get(Router);
+
+        if (environment.production) { router.navigate(['error']); }
+
+        StackTrace
+            .fromError(error)
+            .then(frames => {
+                const stackString = frames
+                    .map(sf => sf.toString)
+                    .join('\n');
+
+                console.log({
+                    message,
+                    url,
+                    userName: userService.getUserName(),
+                    stack: stackString
+                });
+
+                serverLogService.log({
+                    message,
+                    url,
+                    userName: userService.getUserName(),
+                    stack: stackString
+                }).subscribe(() => {
+                    console.log('error logged on server');
+                },
+                err => {
+                    console.log(err);
+                    console.log('error failed to log on server');
+                });
+            });
+    }
+
+}

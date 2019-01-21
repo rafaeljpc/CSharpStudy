@@ -35,12 +35,12 @@ export class SignInComponent implements OnInit {
             .subscribe(
                 () => this.router.navigate(['user', userName]),
                 err => {
-                    console.error(err);
                     this.loginForm.reset();
                     if (this.platformDetectorService.isPlatformBrowser()) {
                         this.userNameInput.nativeElement.focus();
                     }
                     alert('Login inválido');
+                    throw err;
                 }
             );
     }
